@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using IAT.Application.Services;
-using IAT.Application.DTOs;
+using IAT.Application;
 
 namespace IAT.WebApi.Controllers
 {

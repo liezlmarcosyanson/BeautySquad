@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using IAT.Application.DTOs;
 
 namespace IAT.Application.Services
 {

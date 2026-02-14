@@ -9,28 +9,46 @@ namespace IAT.Application
     public class InfluencerCreateRequest { public string FullName { get; set; } public string Email { get; set; } public string Bio { get; set; } public string Phone { get; set; } public string Geography { get; set; } public string[] Tags { get; set; } public string AdvocacyStatus { get; set; } }
     public class InfluencerDto { public Guid Id { get; set; } public string FullName { get; set; } public string Email { get; set; } public string Bio { get; set; } public string[] Tags { get; set; } }
 
-        public class CampaignCreateRequest { public string Name { get; set; } public string Description { get; set; } public DateTime Start { get; set; } public DateTime End { get; set; } public List<CampaignDeliverableDto> Deliverables { get; set; } }
-        
-        public class CampaignDto
-        {
-            public Guid Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public DateTime Start { get; set; }
-            public DateTime End { get; set; }
-            public List<CampaignDeliverableDto> Deliverables { get; set; }
-        }
-        
-        public class CampaignDeliverableDto
-        {
-            public Guid Id { get; set; }
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public bool Required { get; set; }
-        }
-
-    public class ContentSubmissionCreateRequest { public Guid CampaignId { get; set; } public Guid InfluencerId { get; set; } public string Title { get; set; } public string Caption { get; set; } }
+    public class CampaignCreateRequest 
+    { 
+        public string Name { get; set; } 
+        public string Brief { get; set; } 
+        public string Objectives { get; set; }
+        public DateTime StartDate { get; set; } 
+        public DateTime EndDate { get; set; } 
+        public decimal Budget { get; set; } 
+    }
     
+    public class CampaignDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Brief { get; set; }
+        public string Objectives { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public decimal Budget { get; set; }
+        public string Status { get; set; }
+    }
+    
+    public class CampaignDeliverableDto
+    {
+        public Guid Id { get; set; }
+        public Guid CampaignId { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+        public DateTime DueDate { get; set; }
+        public string Status { get; set; }
+    }
+
+    public class ContentSubmissionCreateRequest 
+    { 
+        public Guid CampaignId { get; set; } 
+        public Guid InfluencerId { get; set; } 
+        public string Title { get; set; } 
+        public string Caption { get; set; } 
+    }
+
     public class ContentSubmissionDto
     {
         public Guid Id { get; set; }

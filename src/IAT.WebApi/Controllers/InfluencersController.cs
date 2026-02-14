@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using FluentValidation.WebApi;
 using IAT.Application;
 using IAT.Application.Services;
 
@@ -64,7 +63,6 @@ namespace IAT.WebApi.Controllers
         /// </summary>
         [HttpPost]
         [Route("")]
-        [CustomizeValidator(RulesetName = "default")]
         public IHttpActionResult Create([FromBody] InfluencerCreateRequest request)
         {
             if (!ModelState.IsValid)

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using IAT.Application.DTOs;
 using IAT.Domain;
 using IAT.Infrastructure;
 

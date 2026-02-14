@@ -5,6 +5,7 @@ using AutoMapper;
 using IAT.Application;
 using IAT.Application.Services;
 using IAT.Infrastructure;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Jwt;
 using Owin;
@@ -34,7 +35,7 @@ namespace IAT.WebApi
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { id = (object)null }
             );
 
             // Enable CORS
@@ -64,10 +65,10 @@ namespace IAT.WebApi
             app.UseJwtBearerAuthentication(new JwtBearerAuthenticationOptions
             {
                 AuthenticationMode = Microsoft.Owin.Security.AuthenticationMode.Active,
-                TokenValidationParameters = new System.IdentityModel.Tokens.TokenValidationParameters()
+                TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key),
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
                     ValidIssuer = issuer,
                     ValidateAudience = true,
@@ -102,8 +103,9 @@ namespace IAT.WebApi
 
         private void ConfigureAutoMapper()
         {
-            Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
-            Mapper.AssertConfigurationIsValid();
+            // AutoMapper 10.x uses a different API
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var mapper = config.CreateMapper();
         }
 
         private string GetXmlCommentsPath()

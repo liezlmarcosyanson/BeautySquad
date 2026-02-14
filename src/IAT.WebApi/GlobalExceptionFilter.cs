@@ -14,7 +14,6 @@ namespace IAT.WebApi
         public override void OnException(HttpActionExecutedContext context)
         {
             var exception = context.Exception;
-            var logLevel = "Error";
 
             // Log the exception
             try
