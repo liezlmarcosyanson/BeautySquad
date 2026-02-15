@@ -2,11 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LogOut, Menu, X } from 'lucide-react';
+import { RoleBadge } from './RoleBadge';
 import { useState } from 'react';
+import { UserRole } from '../types/roles';
 
 export function Navbar() {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, role } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+  };
 
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
@@ -26,24 +33,36 @@ export function Navbar() {
             <Link to="/influencers" className="text-gray-600 hover:text-purple-600 transition">
               Influencers
             </Link>
-            {isAuthenticated && user?.role === 'admin' && (
-              <Link to="/admin" className="text-gray-600 hover:text-purple-600 transition">
-                Admin
-              </Link>
+            {isAuthenticated && (
+              <>
+                {role === UserRole.ADMIN && (
+                  <Link to="/admin" className="text-gray-600 hover:text-purple-600 transition">
+                    Admin
+                  </Link>
+                )}
+                {role === UserRole.BRAND && (
+                  <Link to="/brand" className="text-gray-600 hover:text-purple-600 transition">
+                    Dashboard
+                  </Link>
+                )}
+                {role === UserRole.INFLUENCER && (
+                  <Link to="/influencer" className="text-gray-600 hover:text-purple-600 transition">
+                    Dashboard
+                  </Link>
+                )}
+              </>
             )}
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
             {isAuthenticated ? (
               <>
-                <div className="text-sm">
+                <div className="text-right">
                   <p className="text-gray-700 font-medium">{user?.firstName} {user?.lastName}</p>
-                  <p className="text-gray-500">{user?.role}</p>
+                  {role && <RoleBadge role={role} size="sm" showIcon={false} />}
                 </div>
                 <button
-                  onClick={() => {
-                    logout();
-                  }}
+                  onClick={handleLogout}
                   className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition"
                   title="Logout"
                 >
@@ -84,6 +103,25 @@ export function Navbar() {
             <Link to="/influencers" className="block py-2 text-gray-600 hover:text-purple-600">
               Influencers
             </Link>
+            {isAuthenticated && (
+              <>
+                {role === UserRole.ADMIN && (
+                  <Link to="/admin" className="block py-2 text-gray-600 hover:text-purple-600">
+                    Admin
+                  </Link>
+                )}
+                {role === UserRole.BRAND && (
+                  <Link to="/brand" className="block py-2 text-gray-600 hover:text-purple-600">
+                    Dashboard
+                  </Link>
+                )}
+                {role === UserRole.INFLUENCER && (
+                  <Link to="/influencer" className="block py-2 text-gray-600 hover:text-purple-600">
+                    Dashboard
+                  </Link>
+                )}
+              </>
+            )}
             {!isAuthenticated ? (
               <>
                 <Link to="/login" className="block py-2 text-gray-600 hover:text-purple-600">
@@ -94,9 +132,14 @@ export function Navbar() {
                 </Link>
               </>
             ) : (
-              <button onClick={logout} className="w-full text-left py-2 text-gray-600 hover:text-purple-600">
-                Logout
-              </button>
+              <>
+                <div className="py-2 border-t border-gray-200 mt-2">
+                  {role && <RoleBadge role={role} size="sm" />}
+                </div>
+                <button onClick={handleLogout} className="w-full text-left py-2 text-gray-600 hover:text-purple-600">
+                  Logout
+                </button>
+              </>
             )}
           </div>
         )}

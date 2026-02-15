@@ -33,6 +33,7 @@ namespace IAT.Infrastructure
         public DbSet<Approval> Approvals { get; set; }
 
         public DbSet<PerformanceMetric> PerformanceMetrics { get; set; }
+        public DbSet<Collaboration> Collaborations { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

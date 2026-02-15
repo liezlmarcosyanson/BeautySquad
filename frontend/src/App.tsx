@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { UserRole } from './types/roles';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
@@ -21,40 +22,52 @@ function App() {
           <Navbar />
           <main className="flex-grow">
             <Routes>
+              {/* Public Routes */}
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/campaigns" element={<CampaignsPage />} />
               <Route path="/influencers" element={<InfluencersPage />} />
 
+              {/* Protected Routes - Influencer Dashboard */}
               <Route
                 path="/influencer"
                 element={
-                  <ProtectedRoute requiredRole="influencer">
+                  <ProtectedRoute requiredRole={UserRole.INFLUENCER}>
                     <InfluencerDashboard />
                   </ProtectedRoute>
                 }
               />
 
+              {/* Protected Routes - Brand Dashboard */}
               <Route
                 path="/brand"
                 element={
-                  <ProtectedRoute requiredRole="brand">
+                  <ProtectedRoute requiredRole={UserRole.BRAND}>
                     <BrandDashboard />
                   </ProtectedRoute>
                 }
               />
 
+              {/* Protected Routes - Admin Dashboard */}
               <Route
                 path="/admin"
                 element={
-                  <ProtectedRoute requiredRole="admin">
+                  <ProtectedRoute requiredRole={UserRole.ADMIN}>
                     <AdminDashboard />
                   </ProtectedRoute>
                 }
               />
 
-              <Route path="*" element={<div className="flex items-center justify-center min-h-screen"><p className="text-2xl font-bold text-gray-900">Page not found</p></div>} />
+              {/* 404 Page */}
+              <Route
+                path="*"
+                element={
+                  <div className="flex items-center justify-center min-h-screen">
+                    <p className="text-2xl font-bold text-gray-900">Page not found</p>
+                  </div>
+                }
+              />
             </Routes>
           </main>
           <Footer />
